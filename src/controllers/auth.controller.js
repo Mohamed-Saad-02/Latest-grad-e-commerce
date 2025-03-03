@@ -26,7 +26,7 @@ export const signup = catchAsync(async (req, res, next) => {
 // @desc    Signin User
 // @route   POST /api/v1/auth/signin
 // @access  Public
-export const signin = catchAsync(async (req, res) => {
+export const signin = catchAsync(async (req, res, next) => {
   // 1. Check if user exists and password is correct
   const user = await User.findOne({ email: req.body.email }).select(
     "+password"
@@ -62,7 +62,7 @@ export const signin = catchAsync(async (req, res) => {
 // @desc    Refresh Token
 // @route   POST /api/v1/auth/refresh-token
 // @access  Private
-export const refreshToken = catchAsync(async (req, res) => {
+export const refreshToken = catchAsync(async (req, res, next) => {
   // 1. Check if refresh token is valid
   let token;
 

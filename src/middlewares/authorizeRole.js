@@ -8,7 +8,6 @@ import catchAsync from "../utils/catchAsync.js";
  * @returns {Function} Middleware function for role-based authorization
  */
 
-// eslint-disable-next-line import/prefer-default-export
 export const authorizeRole = (...roles) =>
   catchAsync(async (req, res, next) => {
     // Get user that passed from protect middleware

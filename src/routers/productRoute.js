@@ -7,6 +7,7 @@ import {
   deleteProduct,
   getTopSale,
   getRelatedProducts,
+  createFilterObj,
 } from "../controllers/product.controller.js";
 import validateSchema from "../middlewares/validateSchema.js";
 import protect from "../middlewares/protect.js";
@@ -29,7 +30,7 @@ productRouter.get("/top-sale", getTopSale);
 
 productRouter
   .route("/")
-  .get(getProducts)
+  .get(createFilterObj, getProducts)
   .post(
     protect,
     authorizeRole(Roles_Enum.ADMIN),

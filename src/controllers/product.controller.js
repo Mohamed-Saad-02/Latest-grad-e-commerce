@@ -3,6 +3,19 @@ import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
 import * as factory from "./handlerFactory.js";
 
+export const createFilterObj = (req, res, next) => {
+  let filterObject = {};
+
+  if (req.query.ids)
+    filterObject = {
+      _id: {
+        $in: req.query.ids.split(","),
+      },
+    };
+  req.filterObj = filterObject;
+  next();
+};
+
 // @desc    Get list of top sale products
 // @route   GET /api/v1/products/top-sale
 // @access  Public
@@ -20,7 +33,7 @@ export const getTopSale = catchAsync(async (req, res, next) => {
 // @desc    Get list of products
 // @route   GET /api/v1/products
 // @access  Public
-export const getProducts = factory.getAll(Product);
+export const getProducts = factory.getAll(Product, ["ids"], "name");
 
 // @desc    Get specific product by id
 // @route   GET /api/v1/products/:id

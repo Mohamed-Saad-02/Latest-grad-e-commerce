@@ -1,6 +1,7 @@
 import catchAsync from "./../utils/catchAsync.js";
 import AppError from "./../utils/appError.js";
 import APIFeatures from "./../utils/apiFeatures.js";
+import Product from "../models/Product.js";
 
 export function deleteOne(Model) {
   return catchAsync(async (req, res, next) => {
@@ -75,7 +76,7 @@ export function getOne(Model, popOptions) {
   });
 }
 
-export function getAll(Model) {
+export function getAll(Model, excludedFields = [], searchField = "") {
   return catchAsync(async (req, res, next) => {
     let filter = {};
     if (req.filterObj) filter = req.filterObj;
@@ -83,7 +84,8 @@ export function getAll(Model) {
     const documentsCount = await Model.countDocuments(filter);
 
     const features = new APIFeatures(Model.find(filter), req.query)
-      .filter()
+      .filter(excludedFields)
+      .search(searchField)
       .sort()
       .limitFields()
       .paginate(documentsCount);

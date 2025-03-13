@@ -11,6 +11,7 @@ import userRouter from "./userRoute.js";
 import wishlistRouter from "./wishlistRoute.js";
 import orderRouter from "./orderRoute.js";
 import promoCodeRouter from "./promoCodeRoute.js";
+import saleRouter from "./saleRoute.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,7 @@ const mountRoutes = (app) => {
 
   app.use("/api/v1/auth", authRouter);
   app.use("/api/v1/products", productRouter);
+  app.use("/api/v1/sale", saleRouter);
   app.use("/api/v1/categories", categoryRouter);
   app.use("/api/v1/subCategories", subCategoryRoute);
   app.use("/api/v1/brands", brandRouter);

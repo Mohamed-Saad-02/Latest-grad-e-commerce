@@ -16,6 +16,17 @@ export function deleteOne(Model) {
   });
 }
 
+export function dropCollection(Model) {
+  return catchAsync(async (req, res, next) => {
+    await Model.collection.drop();
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  });
+}
+
 export function updateOne(Model) {
   return catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {

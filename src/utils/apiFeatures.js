@@ -58,6 +58,8 @@ class APIFeatures {
   }
 
   paginate(documentsCount) {
+    if (!this.queryStr.limit) return this;
+
     const page = Number(this.queryStr.page) || 1;
     const limit = Number(this.queryStr.limit) || 10;
     const skip = (page - 1) * limit;

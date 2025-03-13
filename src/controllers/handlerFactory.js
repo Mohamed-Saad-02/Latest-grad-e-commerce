@@ -1,7 +1,6 @@
 import catchAsync from "./../utils/catchAsync.js";
 import AppError from "./../utils/appError.js";
 import APIFeatures from "./../utils/apiFeatures.js";
-import Product from "../models/Product.js";
 
 export function deleteOne(Model) {
   return catchAsync(async (req, res, next) => {
@@ -42,9 +41,7 @@ export function updateOne(Model) {
 
     res.status(200).json({
       status: "success",
-      data: {
-        [modelName]: doc,
-      },
+      [modelName]: doc,
     });
   });
 }
@@ -59,9 +56,7 @@ export function createOne(Model) {
 
     res.status(201).json({
       status: "success",
-      data: {
-        [modelName]: doc,
-      },
+      [modelName]: doc,
     });
   });
 }
@@ -80,9 +75,7 @@ export function getOne(Model, popOptions) {
 
     res.status(200).json({
       status: "success",
-      data: {
-        [modelName]: doc,
-      },
+      [modelName]: doc,
     });
   });
 }
@@ -104,19 +97,21 @@ export function getAll(Model, excludedFields = [], searchField = "") {
 
     const modelName = Model.modelName + "s";
 
+    const metadata = features?.metadata?.limit
+      ? {
+          limit: features.metadata.limit,
+          results: doc.length,
+          total: documentsCount,
+          page: features.metadata.page,
+          totalPages: features.metadata.totalPages,
+        }
+      : undefined;
+
     // SEND RESPONSE
     res.status(200).json({
       status: "success",
-      metadata: {
-        limit: features.metadata.limit,
-        results: doc.length,
-        total: documentsCount,
-        page: features.metadata.page,
-        totalPages: features.metadata.totalPages,
-      },
-      data: {
-        [modelName]: doc,
-      },
+      metadata,
+      [modelName]: doc,
     });
   });
 }

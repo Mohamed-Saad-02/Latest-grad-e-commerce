@@ -18,18 +18,20 @@ export const getCategories = catchAsync(async (req, res, next) => {
     select: "name",
   });
 
+  const metadata = features?.metadata?.limit
+    ? {
+        limit: features.metadata.limit,
+        results: doc.length,
+        total: documentsCount,
+        page: features.metadata.page,
+        totalPages: features.metadata.totalPages,
+      }
+    : undefined;
+
   res.status(200).json({
     status: "success",
-    metadata: {
-      results: categories.length,
-      page: features.metadata.page,
-      limit: features.metadata.limit,
-      totalPages: features.metadata.totalPages,
-      total: numCategories,
-    },
-    data: {
-      categories,
-    },
+    metadata,
+    categories,
   });
 });
 

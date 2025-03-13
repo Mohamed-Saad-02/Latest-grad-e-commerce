@@ -14,13 +14,11 @@ export const getMe = catchAsync(async (req, res, next) => {
   const { _id, photo, name, email } = req.user;
   res.status(200).json({
     status: "success",
-    data: {
-      user: {
-        _id,
-        photo,
-        name,
-        email,
-      },
+    user: {
+      _id,
+      photo,
+      name,
+      email,
     },
   });
 });
@@ -49,7 +47,6 @@ export const deleteMe = catchAsync(async (req, res, next) => {
 
   res.status(204).json({
     status: "success",
-    data: null,
   });
 });
 
@@ -93,13 +90,21 @@ export const getAllUsers = catchAsync(async (req, res, next) => {
 
   const users = await features.query;
 
+  const metadata = features?.metadata?.limit
+    ? {
+        limit: features.metadata.limit,
+        results: doc.length,
+        total: documentsCount,
+        page: features.metadata.page,
+        totalPages: features.metadata.totalPages,
+      }
+    : undefined;
+
   res.status(200).json({
     status: "success",
     results: users.length,
-    metadata: features.metadata,
-    data: {
-      users,
-    },
+    metadata,
+    users,
   });
 });
 
